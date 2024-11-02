@@ -13,7 +13,7 @@ export default async function handler(req, res) {
 
   try {
     const response = await fetch(targetUrl, fetchOptions);
-    const data = await response.text(); // Or use response.json() if JSON
+    const data = await response.json();
 
     // Forward the status and data
     res.status(response.status).send(data);
