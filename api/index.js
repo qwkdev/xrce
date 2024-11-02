@@ -6,7 +6,7 @@ export default async function handler(req, res) {
     method: req.method,
     headers: {
       ...req.headers,
-      host: "myserver.com", // override to avoid host mismatch issues
+      host: "qwk.pythonanywhere.com", // override to avoid host mismatch issues
     },
     body: req.method === "GET" ? null : JSON.stringify(req.body),
   };
