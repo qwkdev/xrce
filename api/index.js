@@ -1,5 +1,6 @@
 export default async function handler(req, res) {
-	const targetUrl = `https://xrce.pythonanywhere.com/init`;
+	const targetPath = req.headers['Path'] || 'init';
+	const targetUrl = `https://xrce.pythonanywhere.com/${targetPath}`;
 	const fetchOptions = {
 		method: req.method,
 		headers: {
