@@ -5,6 +5,15 @@ export default async function handler(req, res) {
 	if (req.method === 'OPTIONS') { return res.status(200).end(); }
 
 	const targetPath = req.headers['path'] || 'init';
+
+	if (targetPath === 'delete-cookie') {
+		const cookieName = req.headers['name'];
+		if (!cookieName) { return res.status(400).send("Cookie name is required."); }
+		
+		res.setHeader('Set-Cookie', `${cookieName}=; Path=/; HttpOnly; Secure; SameSite=Strict; Expires=Thu, 01 Jan 1970 00:00:00 GMT;`);
+		return res.status(200).send(`Cookie "${cookieName}" deleted.`);
+	}
+	
 	const targetUrl = `https://xrce.pythonanywhere.com/${targetPath}`;
 	const fetchOptions = {
 		method: req.method,
