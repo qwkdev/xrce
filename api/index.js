@@ -30,24 +30,8 @@ export default async function handler(req, res) {
 				const response = await fetch('https://achieve.hashtag-learning.co.uk/accounts/login/', {
 					method: 'POST',
 					headers: {
-						"Host": "achieve.hashtag-learning.co.uk",
-						"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:133.0) Gecko/20100101 Firefox/133.0",
-						"Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-						"Accept-Language": "en-US,en;q=0.5",
-						"Accept-Encoding": "gzip, deflate, br, zstd",
-						"Referer": "https://achieve.hashtag-learning.co.uk/accounts/login/",
-						"Content-Type": "application/x-www-form-urlencoded",
 						"Origin": "https://achieve.hashtag-learning.co.uk",
-						"DNT": "1",
-						"Sec-GPC": "1",
-						"Connection": "keep-alive",
-						"Cookie": `csrftoken=${req.headers['csrftoken']}`,
-						"Upgrade-Insecure-Requests": "1",
-						"Sec-Fetch-Dest": "document",
-						"Sec-Fetch-Mode": "navigate",
-						"Sec-Fetch-Site": "same-origin",
-						"Sec-Fetch-User": "?1",
-						"Priority": "u=0, i",
+						"Cookie": `csrftoken=${req.headers['csrftoken']}`
 					},
 					body: new URLSearchParams({
 						csrfmiddlewaretoken: req.headers['csrfmiddlewaretoken'],
@@ -71,6 +55,7 @@ export default async function handler(req, res) {
 					}
 				});
 				console.log(setCookies);
+				console.log(response.headers)
 			
 				let newCookie = '';
 				if (cookies) {
