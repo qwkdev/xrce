@@ -1,7 +1,7 @@
 export default async function handler(req, res) {
 	res.setHeader('Access-Control-Allow-Origin', '*');
 	res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-	res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Path, Name');
+	res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Path, Name, Domain');
 	if (req.method === 'OPTIONS') { return res.status(200).end(); }
 
 	const targetPath = req.headers['path'] || 'init';
@@ -10,7 +10,7 @@ export default async function handler(req, res) {
 		const cookieName = req.headers['name'];
 		if (!cookieName) { return res.status(400).send("Cookie name is required."); }
 		
-		res.setHeader('Set-Cookie', `${cookieName}=; Path=/; HttpOnly; Secure; SameSite=Strict; Expires=Thu, 01 Jan 1970 00:00:00 GMT;`);
+		res.setHeader('Set-Cookie', `${cookieName}=; Path=/; HttpOnly; Secure; SameSite=Strict; Expires=Thu, 01 Jan 1970 00:00:00 GMT; Domain=${req.headers['name']}`);
 		return res.status(200).send(`Cookie "${cookieName}" deleted.`);
 	}
 	
