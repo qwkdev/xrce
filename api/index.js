@@ -9,8 +9,9 @@ export default async function handler(req, res) {
 	if (targetPath === 'delete-cookie') {
 		const cookieName = req.headers['name'];
 		if (!cookieName) { return res.status(400).send("Cookie name is required."); }
-		
-		res.setHeader('Set-Cookie', `${cookieName}=; Path=/; HttpOnly; Secure; SameSite=Strict; Expires=Thu, 01 Jan 1970 00:00:00 GMT; Domain=${req.headers['name']}`);
+
+		if (req.headers['domain']) { res.setHeader('Set-Cookie', `${cookieName}=; Path=/; HttpOnly; Secure; SameSite=Strict; Expires=Thu, 01 Jan 1970 00:00:00 GMT; Domain=${req.headers['domain']};`); }
+		else { res.setHeader('Set-Cookie', `${cookieName}=; Path=/; HttpOnly; Secure; SameSite=Strict; Expires=Thu, 01 Jan 1970 00:00:00 GMT;`); }
 		return res.status(200).send(`Cookie "${cookieName}" deleted.`);
 	}
 	
