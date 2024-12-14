@@ -80,7 +80,7 @@ export default async function handler(req, res) {
 				
 				const html = await response.text();
 				res.setHeader('Set-Cookie', newCookie);
-				res.send(html);
+				res.status(response.status).send(html);
 		}
 	}
 	
