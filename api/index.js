@@ -63,7 +63,14 @@ export default async function handler(req, res) {
 				}
 
 				const cookies = response.headers.get('set-cookie');
-				console.log('Original Cookies:', response.headers.raw());
+
+				const setCookies = [];
+				response.headers.forEach((value, name) => {
+					if (name.toLowerCase() === 'set-cookie') {
+						setCookies.push(value);
+					}
+				});
+				console.log(setCookies);
 			
 				let newCookie = '';
 				if (cookies) {
