@@ -29,6 +29,7 @@ export default async function handler(req, res) {
 			case 'achieve':
 				const response = await fetch('https://achieve.hashtag-learning.co.uk/accounts/login/', {
 					method: 'POST',
+					redirect: 'manual',
 					headers: {
 						"Origin": "https://achieve.hashtag-learning.co.uk",
 						"Cookie": `csrftoken=${req.headers['csrftoken']}`
@@ -39,6 +40,7 @@ export default async function handler(req, res) {
 						password: req.headers['password']
 					})
 				});
+				if (response.status === 302 || response.status === 301) {
 				
 				if (!response.ok) {
 					const errorText = await response.text();
@@ -46,6 +48,11 @@ export default async function handler(req, res) {
 					return res.status(response.status).send(`Error from target server: ${errorText}`);
 				}
 
+				// const response2 = await fetch('https://achieve.hashtag-learning.co.uk/', {
+				// 	method: 'GET',
+				// 	headers: { 
+				// });
+					
 				const cookies = response.headers.get('set-cookie');
 
 				const setCookies = [];
@@ -57,21 +64,21 @@ export default async function handler(req, res) {
 				console.log(setCookies);
 				console.log(response.headers)
 			
-				let newCookie = '';
-				if (cookies) {
-				    newCookie = cookies.split(',').map(cookie => {
-					if (cookie.includes('sessionid=')) {
-					    return cookie.replace(
-						    '; HttpOnly; Path=/; SameSite=None; Secure',
-						    '; HttpOnly=false; Path=/; SameSite=None; Secure'
-					    );
-					}
-					return cookie;
-				    }).join(',');
-				}
+				// let newCookie = '';
+				// if (cookies) {
+				//     newCookie = cookies.split(',').map(cookie => {
+				// 	if (cookie.includes('sessionid=')) {
+				// 	    return cookie.replace(
+				// 		    '; HttpOnly; Path=/; SameSite=None; Secure',
+				// 		    '; HttpOnly=false; Path=/; SameSite=None; Secure'
+				// 	    );
+				// 	}
+				// 	return cookie;
+				//     }).join(',');
+				// }
 				
 				const html = await response.text();
-				res.setHeader('Set-Cookie', newCookie);
+				// res.setHeader('Set-Cookie', newCookie);
 				res.status(response.status).send(html);
 		}
 	}
